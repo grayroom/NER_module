@@ -1,19 +1,15 @@
 import json
 import model
-import environ
+import os
 
 from kafka import KafkaConsumer, KafkaProducer
 from model import DistilbertNER
 
-
 from crud import CRUD
 
 
-env = environ.Env()
-environ.Env.read_env()
-
 print('initializing...')
-consumer = KafkaConsumer('hello.kafka', bootstrap_servers=str(env("KAFKA_HOST")) + ":" + str(env("KAFKA_PORT")),
+consumer = KafkaConsumer('hello.kafka', bootstrap_servers=str(os.environ['KAFKA_HOST']) + ":" + str(os.environ['KAFKA_PORT']),
                          value_deserializer=lambda x: json
                          .loads(x.decode('utf-8')))
 
