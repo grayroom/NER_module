@@ -1,17 +1,13 @@
 import psycopg2
-import environ
-
-# Initialise environment variables
-env = environ.Env()
-environ.Env.read_env()
+import os
 
 
 class Databases():
     def __init__(self):
-        self.db = psycopg2.connect(host='localhost', dbname=env('PSQL_NAME'),
-                                   user=env('PSQL_ID'),
-                                   password=env('PSQL_PW'),
-                                   port=env('PSQL_PORT'))
+        self.db = psycopg2.connect(host=os.environ['PSQL_HOST'], dbname=os.environ['PSQL_NAME'],
+                                   user=os.environ['PSQL_ID'],
+                                   password=os.environ['PSQL_PW'],
+                                   port=os.environ['PSQL_PORT'])
         self.cursor = self.db.cursor()
 
     def __del__(self):

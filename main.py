@@ -1,18 +1,28 @@
 import json
 import model
+import environ
+
 from kafka import KafkaConsumer, KafkaProducer
 from model import DistilbertNER
 
+
 from crud import CRUD
 
-consumer = KafkaConsumer('hello.kafka', bootstrap_servers='192.168.0.13:9092',
+
+env = environ.Env()
+environ.Env.read_env()
+
+print('initializing...')
+consumer = KafkaConsumer('hello.kafka', bootstrap_servers=str(env("KAFKA_HOST")) + ":" + str(env("KAFKA_PORT")),
                          value_deserializer=lambda x: json
                          .loads(x.decode('utf-8')))
 
 ner_model = model.NLPmodule()
 diag_database = CRUD()
+print('done!')
 
 for message in consumer:
+    print(message)
     # for every element in message.value, run the get_ner_token method and
     # insert into json object
     res = {}
@@ -29,7 +39,11 @@ for message in consumer:
     # # parse pr, te, tr to json
     tags = json.dumps(res)
     # tags = "\\'".join(tags.split("'"))
-    diag_database.update_db(table='api_diagnosis',
-                            colum='named_entity', value=str(tags),
+    diag_database.update_db(table='api_nerhistory',
+                            colum='ner_result', value=str(tags),
+                            targ='id', condition=message.value['uuid'])
+
+    diag_database.update_db(table='api_nerhistory',
+                            colum='updated_time', value='now()',
                             targ='id', condition=message.value['uuid'])
     print(message.value['uuid'], 'updated')
