@@ -6,10 +6,10 @@ huggingface-hub==0.11.1
 idna==3.4
 kafka-python==2.0.2
 numpy==1.24.0
-nvidia-cublas-cu11==11.10.3.66
-nvidia-cuda-nvrtc-cu11==11.7.99
-nvidia-cuda-runtime-cu11==11.7.99
-nvidia-cudnn-cu11==8.5.0.96
+# nvidia-cublas-cu11==11.10.3.66
+# nvidia-cuda-nvrtc-cu11==11.7.99
+# nvidia-cuda-runtime-cu11==11.7.99
+# nvidia-cudnn-cu11==8.5.0.96
 packaging==22.0
 psycopg2-binary==2.9.5
 PyYAML==6.0

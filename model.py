@@ -7,6 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1g67o9m8yHM60SfNpuc3LtdtO6tFEaSfo
 """
 
+import re
 import warnings
 import torch
 
@@ -104,9 +105,6 @@ class DistilbertNER(nn.Module):
         out = self.pretrained(input_ids=input_ids,
                               attention_mask=attention_mask, labels=labels)
         return out
-
-
-import re
 
 
 class NLPmodule:
